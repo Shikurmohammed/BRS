@@ -19,6 +19,7 @@ public class ClientController {
 
     @PostMapping("/saveClient")
     public ResponseEntity<String> saveClient(@RequestBody Client client) {
+        System.out.println();
         try {
             if (clientService.saveClient(client) != null) {
                 return new ResponseEntity<>("Client Registered Successfuly:", HttpStatus.CREATED);
