@@ -37,4 +37,17 @@ public class BookService {
         return null;
     }
 
+    public Book updateBook(Book book) {
+        try {
+            Book abook = bookMapper.getBook(book.getId()).get();
+            if (abook != null) {
+                bookMapper.updateBook(book);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return book;
+    }
+
 }

@@ -25,17 +25,20 @@ public interface BookMapper {
     @Select("Select * from Book where id=#{id}")
     List<Book> searchBookByKey(@Param("id") Long id);
 
-    @Select("Select * from Book where Available=1")
-    List<Book> getAvailableBooks();
-
-    @Insert("INSERT INTO Book (Title,Author,ISBN,PublicationDate,Genre,Type,RegistrationDate,NumberOfCopies,Edition,Available) VALUES(#{title},#{author},#{iSBN},#{publicationDate},#{genre},#{type},#{registrationDate},#{numberOfCopies},#{edition},#{available})")
+    @Insert("INSERT INTO Book (Title,Author,ISBN,PublicationDate,Genre,Type,RegistrationDate,NumberOfCopies,Edition) VALUES(#{title},#{author},#{iSBN},#{publicationDate},#{genre},#{type},#{registrationDate},#{numberOfCopies},#{edition})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void saveBook(Book book);
 
     @Delete("Delete From Book where Id =#{id}")
     void deleteBook(@Param("id") Long id);
 
-    @Update("Update Book set Title=#{title},Author=#{author},ISBN=#{iSBN},PublicationDate=#{publicationDate},Genre=#{genre},Type=#{type},RegistrationDate=#{registrationDate} NumberOfCopies=#{numberOfCopies} Edition=#{Edition} Available=#{available} where Id=#{id}")
+    @Update("Update Book set Title=#{title},Author=#{author},ISBN=#{iSBN},PublicationDate=#{publicationDate},Genre=#{genre},Type=#{type},"
+            +
+            "RegistrationDate=#{registrationDate},NumberOfCopies=#{numberOfCopies} ,Edition=#{edition}  where Id=#{id}")
+
     int updateBook(Book book);
+
+    // @Update("Update Book set NumberOfCopies=#{numberOfCopies} where Id=#{id}")
+    // int updateBook(Book book);
 
 }

@@ -2,6 +2,11 @@ package com.BRS.entity;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book {
 
     private Long id;
@@ -16,7 +21,6 @@ public class Book {
 
     private LocalDateTime registrationDate;
     private LocalDateTime publicationDate;
-    private boolean available;
 
     public Long getId() {
         return id;

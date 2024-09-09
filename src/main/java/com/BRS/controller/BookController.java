@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,13 +46,13 @@ public class BookController {
 
     }
 
-    @GetMapping("/saveBook")
+    @PostMapping("/saveBook")
     public ResponseEntity<String> saveBook(@RequestBody Book book) {
 
         try {
             Book savedbook = bookService.saveBook(book);
             if (savedbook != null) {
-                return new ResponseEntity<>("Book saved Successfully with Book ID:" + savedbook.getId(),
+                return new ResponseEntity<>("Book saved Successfully with Book ID:" + book.getId(),
                         HttpStatus.CREATED);
             } else {
                 return new ResponseEntity<>("Fail:", HttpStatus.NOT_ACCEPTABLE);
@@ -64,7 +66,7 @@ public class BookController {
     @DeleteMapping("/deleteBook/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
         try {
-            if (bookService.getBook(id).isPresent()) {
+            if (bookService.getBook(id) != null) {
                 bookService.deleteBook(id);
                 return new ResponseEntity<>("The Book is removed successfully", HttpStatus.NO_CONTENT);
             } else {
@@ -81,4 +83,10 @@ public class BookController {
         return null;
     }
 
+    @PutMapping("/updateBook")
+    public ResponseEntity<Book> updateBook(@RequestBody Book book) {
+        ;
+        return ResponseEntity.ok(bookService.updateBook(book));
+
+    }
 }
