@@ -16,17 +16,20 @@ import com.BRS.entity.Client;
 @Mapper
 public interface ClientMapper {
 
-    @Insert("Insert into Client(FirstName,LastName,Username,Password,Email,PhoneNumber,RegistrationDate,Address,KebeleId) values(#{firstName},#{lastName},#{userName},#{password},#{email},#{phoneNumber},#{registrationDate},#{address},#{kebeleId})")
+    @Insert("Insert into Client(FirstName,LastName,Username,Password,Email,PhoneNumber,RegistrationDate,Address,KebeleId) values(#{firstName},#{lastName},#{username},#{password},#{email},#{phoneNumber},#{registrationDate},#{address},#{kebeleId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveClient(Client client);
 
     @Select("SELECT * FROM Client")
     List<Client> getAllClients();
 
-    @Select("SELECT * FROM CLient where Id =#{id}")
+    @Select("SELECT * FROM Client where Id =#{id}")
     Optional<Client> getClient(@Param("id") Long id);
 
-    @Update("UPDATE Client SET FirstName=#{firstName},LastName=#{lastName},Username=#{userName}," +
+    @Select("SELECT * FROM Client where Username=#{username}")
+    Client findByUsername(String username);
+
+    @Update("UPDATE Client SET FirstName=#{firstName},LastName=#{lastName},Username=#{username}," +
             "Password=#{password},Email=#{email},PhoneNumber=#{phoneNumber},RegistrationDate=#{registrationDate}," +
             "Address=#{address},KebeleId=#{kebeleId} where Id=#{id}")
     int updateClient(Client client);

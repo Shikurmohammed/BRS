@@ -4,19 +4,23 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.BRS.entity.Client;
 import com.BRS.mapper.ClientMapper;
 
 @Service
-public class ClientService {
+public class ClientService implements UserDetailsService {
 
     @Autowired
     private ClientMapper clientMapper;
 
     public Client saveClient(Client client) {
         int savedClient = clientMapper.saveClient(client);
+        System.out.println("Saving client");
         if (savedClient > 0)
             return client;
         else
@@ -58,5 +62,10 @@ public class ClientService {
 
         Optional<Client> client = clientMapper.getClient(id);
         return client.get();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return (UserDetails) clientMapper.findByUsername(username);
     }
 }
