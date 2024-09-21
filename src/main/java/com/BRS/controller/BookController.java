@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +20,29 @@ import com.BRS.entity.Book;
 import com.BRS.service.BookService;
 
 @RestController
-@RequestMapping("/api")
+@CrossOrigin("*")
+@RequestMapping("api/v1")
 public class BookController {
-    @Autowired
+	@Autowired
     private BookService bookService;
+
+
+    @PostMapping("/bookRegistration")
+    public ResponseEntity<String> saveBook(@RequestBody Book book) {
+        try {
+            Book savebook = bookService.saveBook(book);
+            if (savebook != null) {
+                String responseMessage = "Book saved successfully with Book ID: " + book.getId();
+                return new ResponseEntity<>(responseMessage, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>("Failure", HttpStatus.NOT_ACCEPTABLE);
+            }
+        } catch (Exception e) {
+            String errorMessage = "Error: " + e.getMessage();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
 
     @GetMapping("/getBooks")
     public ResponseEntity<List<Book>> getBookList() {
@@ -45,23 +65,7 @@ public class BookController {
         }
 
     }
-
-    @PostMapping("/saveBook")
-    public ResponseEntity<String> saveBook(@RequestBody Book book) {
-
-        try {
-            Book savedbook = bookService.saveBook(book);
-            if (savedbook != null) {
-                return new ResponseEntity<>("Book saved Successfully with Book ID:" + book.getId(),
-                        HttpStatus.CREATED);
-            } else {
-                return new ResponseEntity<>("Fail:", HttpStatus.NOT_ACCEPTABLE);
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error:" + e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-        }
-    }
+    
 
     @DeleteMapping("/deleteBook/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
