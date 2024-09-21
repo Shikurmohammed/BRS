@@ -28,19 +28,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
-        if (requestURI.equals("/login") ||
-                requestURI.equals("/api/authenticate") ||
-                requestURI.equals("/home")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+
         try {
-            final String autheader = request.getHeader("Authorization");
-            if (autheader == null && !autheader.startsWith("Beare")) {
+            String requestURI = request.getRequestURI();
+            if (requestURI.equals("/api/authenticate") || requestURI.equals("/login") ||
+                    requestURI.equals("/home")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            String autheader = request.getHeader("Authorization");
+            if (autheader == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization header is missing or invlaid");
             }
-            if (autheader != null && !autheader.startsWith("Beare")) {
+            if (autheader != null && !autheader.startsWith("Bearer")) {
                 filterChain.doFilter(request, response);
             }
             if (autheader != null) {

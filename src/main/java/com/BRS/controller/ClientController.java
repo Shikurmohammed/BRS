@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.BRS.entity.AuthResponse;
 import com.BRS.entity.Client;
 import com.BRS.security.JwtUtil;
 import com.BRS.service.ClientService;
@@ -33,7 +34,7 @@ public class ClientController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/authenticate")
-    public String authenticateAndGetToken(@RequestBody Client ClientForm) {
+    public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody Client ClientForm) {
         try {
             System.out.println("Credentials" + clientService.loadUserByUsername(ClientForm.getUsername()));
 
@@ -42,16 +43,17 @@ public class ClientController {
             // System.out.println("authe..." + authentication);
             if (authentication.isAuthenticated()) {
                 System.out.println(jwtUtil.generateToken(clientService.loadUserByUsername(ClientForm.getUsername())));
-                return jwtUtil.generateToken(clientService.loadUserByUsername(ClientForm.getUsername()));
+                AuthResponse authResponse = new AuthResponse(
+                        jwtUtil.generateToken(clientService.loadUserByUsername(ClientForm.getUsername())));
+
+                return ResponseEntity
+                        .ok().body(authResponse);
             } else {
                 throw new UsernameNotFoundException(ClientForm.getUsername());
             }
-
         } catch (Exception e) {
-            return e.getMessage();
-
+            return ResponseEntity.ok().body(null);
         }
-
     }
 
     @GetMapping("/getClients")

@@ -70,7 +70,7 @@ public class RentService {
 
                     double Penalty = daysLate > 0 ? daysLate * DAILY_PENALITY_RATE : 0;
                     rentedBooks.setPenalty(Penalty);
-                    rentedBooks.setRentAmount(rentedBooks.getRentAmount());
+                    rentedBooks.setRentAmount(rentedBooks.getRentAmount() + Penalty);
                     rentedBooks.setStatus("Available");
                     rentMapper.returnBook(rentedBooks);
                     book.setNumberOfCopies(book.getNumberOfCopies() + 1);

@@ -39,7 +39,7 @@ public interface RentMapper {
     // "Penalty=#{penalty} where Id=#{id}")
     // int updateRent(Rent rent);
 
-    @Update("Update Rent set ReturnDate=#{returnDate},Status=#{status} , Penalty=#{penalty} where Id=#{id}")
+    @Update("Update Rent set ReturnDate=#{returnDate},Status=#{status} ,RentAmount=#{rentAmount}, Penalty=#{penalty} where Id=#{id}")
     int returnBook(Rent rent);
 
 }
