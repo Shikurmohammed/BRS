@@ -1,5 +1,7 @@
 package com.BRS.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,4 +50,13 @@ public class RentController {
         }
 
     }
+
+    @GetMapping("/getRentList")
+    public ResponseEntity<?> getRentList() {
+        List<Rent> rentList = rentService.getAllRent();
+        // return ResponseEntity.ok(rentList);
+        return new ResponseEntity<>(rentList, HttpStatus.OK);// don't use HttpStatus.Found here,
+
+    }
+
 }
