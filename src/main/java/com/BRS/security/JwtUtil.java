@@ -25,7 +25,7 @@ public class JwtUtil {
     @Value("${jwt-expiration}")
     private Long VALID_FOR;
 
-    /* Start Generating Toke */
+    /* Start Generating Token */
     public String generateToken(UserDetails userDetails) {
         Map<String, String> claims = new HashMap<>();
         claims.put("issuer", "ShikurM");

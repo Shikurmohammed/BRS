@@ -1,7 +1,6 @@
 package com.BRS.mapper;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -15,31 +14,24 @@ import com.BRS.entity.Rent;
 
 @Mapper
 public interface RentMapper {
-    @Select("Select * from Rent")
+    @Select("Select * from tbl_Rent")
     List<Rent> getRentList();
 
-    @Select("Select * from Rent where Id=#{id}")
-    Optional<Rent> getRent(@Param("id") Long id);
+    @Select("Select * from tbl_Rent where Id=#{id}")
+    Rent getRent(@Param("id") Long id);
 
-    @Select("Select  * from Rent where Id=#{id}")
+    @Select("Select  * from tbl_Rent where Id=#{id}")
     List<Rent> searchRentByKey(@Param("Key") Rent Key);
 
-    @Insert("INSERT into Rent (BookId,ClientId,RentDate,DueDate,ReturnDate,RentAmount,Status)" +
+    @Insert("INSERT into tbl_Rent (BookId,ClientId,RentDate,DueDate,ReturnDate,RentAmount,Status)" +
             "values(#{bookId},#{clientId},#{rentDate},#{dueDate},#{returnDate},#{rentAmount},#{status})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void saveRent(Rent rent);
+    int saveRent(Rent rent);
 
-    @Delete("Delete from Rent where Id =#{id}")
-    void removeRent(@Param("id") Long id);
+    @Delete("Delete from tbl_Rent where Id =#{id}")
+    int removeRent(@Param("id") Long id);
 
-    // @Update("Update Rent set
-    // BookId=#{bookId},ClientId=#{clientId},RentDate=#{rentDate}," +
-    // "DueDate=#{dueDate},ReturnedDate=#{returnedDate},RentAmount=#{rentAmount},Status=#{status},"
-    // +
-    // "Penalty=#{penalty} where Id=#{id}")
-    // int updateRent(Rent rent);
-
-    @Update("Update Rent set ReturnDate=#{returnDate},Status=#{status} ,RentAmount=#{rentAmount}, Penalty=#{penalty} where Id=#{id}")
+    @Update("Update tbl_Rent set ReturnDate=#{returnDate},Status=#{status} ,TotalFee=#{totalFee}, Penalty=#{penalty} where Id=#{id}")
     int returnBook(Rent rent);
 
 }

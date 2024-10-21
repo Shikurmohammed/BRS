@@ -1,7 +1,6 @@
 package com.BRS.mapper;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -16,29 +15,24 @@ import com.BRS.entity.Book;
 @Mapper
 public interface BookMapper {
 
-    @Select("Select * from Book")
+    @Select("Select * from tbl_Book")
     List<Book> getBookList();
 
-    @Select("Select  * from Book where id=#{id}")
-    Optional<Book> getBook(@Param("id") Long id);
+    @Select("Select  * from tbl_Book where id=#{id}")
+    Book getBook(@Param("id") Long id);
 
-    @Select("Select * from Book where id=#{id}")
+    @Select("Select * from tbl_Book where id=#{id}")
     List<Book> searchBookByKey(@Param("id") Long id);
 
-    @Insert("INSERT INTO Book (Title,Author,ISBN,PublicationDate,Genre,Type,RegistrationDate,NumberOfCopies,Edition) VALUES(#{title},#{author},#{iSBN},#{publicationDate},#{genre},#{type},#{registrationDate},#{numberOfCopies},#{edition})")
+    @Insert("INSERT INTO tbl_Book (Title,Author,ISBN,PublicationDate,Genre,Type,RegistrationDate,NumberOfCopies,Edition) VALUES(#{title},#{author},#{iSBN},#{publicationDate},#{genre},#{type},#{registrationDate},#{numberOfCopies},#{edition})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void saveBook(Book book);
+    int saveBook(Book book);
 
-    @Delete("Delete From Book where Id =#{id}")
-    void deleteBook(@Param("id") Long id);
+    @Delete("Delete From tbl_Book where Id =#{id}")
+    int deleteBook(@Param("id") Long id);
 
-    @Update("Update Book set Title=#{title},Author=#{author},ISBN=#{iSBN},PublicationDate=#{publicationDate},Genre=#{genre},Type=#{type},"
+    @Update("Update tbl_Book set Title=#{ Book.title},Author=#{ Book.author},ISBN=#{ Book.iSBN},PublicationDate=#{ Book.publicationDate},Genre=#{ Book.genre},Type=#{ Book.type},"
             +
-            "RegistrationDate=#{registrationDate},NumberOfCopies=#{numberOfCopies} ,Edition=#{edition}  where Id=#{id}")
-
-    int updateBook(Book book);
-
-    // @Update("Update Book set NumberOfCopies=#{numberOfCopies} where Id=#{id}")
-    // int updateBook(Book book);
-
+            "RegistrationDate=#{ Book.registrationDate},NumberOfCopies=#{ Book.numberOfCopies} ,Edition=#{ Book.edition}  where Id=#{currentId}")
+    int updateBook(@Param("Book") Book book, @Param("currentId") Long currentId);
 }

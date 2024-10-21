@@ -17,7 +17,7 @@ public class Rent {
     private LocalDateTime dueDate;
     private LocalDateTime returnDate;
     private double rentAmount;
-    private String status;
     private double penalty;
+    private double totalFee;
 
 }
